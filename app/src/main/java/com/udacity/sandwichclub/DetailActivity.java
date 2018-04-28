@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -21,6 +22,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
+        TextView placeOfOriginTextView = findViewById(R.id.origin_tv);
+        TextView alsoKnownAsTextView = findViewById(R.id.also_known_tv);
+        TextView descriptionTextView = findViewById(R.id.description_tv);
+        TextView ingredientsTextView = findViewById(R.id.ingredients_tv);
+
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -49,6 +55,32 @@ public class DetailActivity extends AppCompatActivity {
                 .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
+
+        if (sandwich.getPlaceOfOrigin().equals("")){
+            placeOfOriginTextView.setText(R.string.unknown_attribute);
+        }else {
+            placeOfOriginTextView.setText(sandwich.getPlaceOfOrigin());
+        }
+
+        if (sandwich.getAlsoKnownAs().toString().equals("[]")){
+            alsoKnownAsTextView.setText(R.string.unknown_attribute);
+        }else {
+            alsoKnownAsTextView.setText(sandwich.getAlsoKnownAs().toString()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace(",", "")
+                    .replace(",",""));
+        }
+        descriptionTextView.setText(sandwich.getDescription());
+        if (sandwich.getIngredients().toString().equals("[]")){
+            ingredientsTextView.setText(R.string.unknown_attribute);
+        }else {
+            ingredientsTextView.setText(sandwich.getIngredients().toString()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace(",", "")
+                    .replace(",",""));
+        }
     }
 
     private void closeOnError() {
